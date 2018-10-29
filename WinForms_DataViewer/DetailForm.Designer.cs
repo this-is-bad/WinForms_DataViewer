@@ -102,7 +102,6 @@
             this.lbl_Description.Size = new System.Drawing.Size(76, 16);
             this.lbl_Description.TabIndex = 7;
             this.lbl_Description.Text = "Description";
-            this.lbl_Description.Click += new System.EventHandler(this.lbl_Description_Click);
             // 
             // lbl_Id
             // 
@@ -175,7 +174,7 @@
             this.btn_Close.TabIndex = 8;
             this.btn_Close.Text = "Close";
             this.btn_Close.UseVisualStyleBackColor = true;
-            this.btn_Close.Click += new System.EventHandler(this.button1_Click);
+            this.btn_Close.Click += new System.EventHandler(this.btn_Close_Click);
             // 
             // tableLayoutPanel3
             // 

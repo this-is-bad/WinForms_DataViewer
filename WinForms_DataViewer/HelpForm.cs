@@ -12,6 +12,9 @@ namespace WinForms_DataViewer
 {
     public partial class HelpForm : Form
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public HelpForm()
         {
             InitializeComponent();

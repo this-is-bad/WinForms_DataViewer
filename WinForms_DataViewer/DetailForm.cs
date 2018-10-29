@@ -14,15 +14,22 @@ namespace WinForms_DataViewer
     {
         Character _person = new Character();
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public DetailForm(Character person)
         {
             InitializeComponent();
             _person = person;
         }
+
         #region EVENTS
 
         private void DetailForm_Load(object sender, EventArgs e)
         {
+            //
+            // format and display character information
+            //
             lbl_FullName.Text = _person.FullName();
             lbl_FirstName.Text = "First Name: " + _person.FirstName;
             lbl_LastName.Text = "Last Name: " + _person.LastName;
@@ -34,16 +41,11 @@ namespace WinForms_DataViewer
             this.Text = _person.FullName() + " Details";
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btn_Close_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
         #endregion EVENTS
-
-        private void lbl_Description_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

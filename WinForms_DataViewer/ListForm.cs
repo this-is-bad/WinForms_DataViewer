@@ -20,6 +20,9 @@ namespace WinForms_DataViewer
 
         public enum FilterGenderType { Male, Female }
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public ListForm()
         {
             InitializeComponent();
@@ -30,6 +33,9 @@ namespace WinForms_DataViewer
         {
             lbl_SearchMessage.Text = "";
 
+            //
+            // bind the data source to the datagridview
+            //
             try
             {
                 ReadMongoDBAndBindToDataGrid();
@@ -52,6 +58,9 @@ namespace WinForms_DataViewer
 
         private void btn_DetailView_Click(object sender, EventArgs e)
         {
+            //
+            // send the selected record to the DetailForm and launch the DetailForm
+            //
             if (dataGridView_Characters.SelectedRows.Count == 1)
             {
                 Character character = new Character();
@@ -66,6 +75,9 @@ namespace WinForms_DataViewer
         {
             try
             {
+                //
+                // make sure the grid is replicated to the data source
+                //
                 IDataService dataService = new MongoDBDataService();
                 dataService.WriteAll(_characters);
 
@@ -76,7 +88,6 @@ namespace WinForms_DataViewer
                 throw;
             }
             this.Close();
-
         }
 
         private void btn_Help_Click(object sender, EventArgs e)
@@ -87,67 +98,33 @@ namespace WinForms_DataViewer
 
         private void btn_Sort_Click(object sender, EventArgs e)
         {
-            //
-            // sort list by last name, then by first name and reset the DataSource
-            //
-            //List<Character> sortedList;
-
-            //if (_sortNameDir == "A" || _sortNameDir == null)
-            //{
-            //    sortedList = _characters.OrderBy(c => c.LastName + c.FirstName).ToList();
-            //    _sortNameDir = "D";
-            //    btn_Sort.Text = "Sort Desc";
-            //}
-            //else
-            //{
-            //    sortedList = _characters.OrderByDescending(c => c.LastName + c.FirstName).ToList();
-            //    _sortNameDir = "A";
-            //    btn_Sort.Text = "Sort";
-            //}
-
-            //dataGridView_Characters.DataSource = sortedList;
             SortSearchFilter();
         }
 
         private void txt_Search_TextChanged(object sender, EventArgs e)
         {
-            //string searchTerm = txt_Search.Text;
-            //var searchedList = _characters.Where(c => c.LastName.ToUpper().Contains(searchTerm.ToUpper())
-            //                                   || c.FirstName.ToUpper().Contains(searchTerm.ToUpper())).ToList();
-
-            //dataGridView_Characters.DataSource = searchedList;
             SortSearchFilter();
         }
 
         private void dataGridView_Characters_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
+            //
+            // display the number of matching records on the form
+            //
             if (dataGridView_Characters.Rows.Count == 0)
             {
                 lbl_SearchMessage.Text = "No results found";
-                //lbl_SearchMessage.Visible = true;
             }
             else
             {
                 int i = dataGridView_Characters.RowCount;
                 lbl_SearchMessage.Text = String.Format("{0} record{1} found", (i.ToString()), (i == 1 ? "" : "s"));
-                //lbl_SearchMessage.Visible = false;
             }
         }
 
         private void cmb_Filter_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SortSearchFilter();
-            //if (_characters.Any())
-            //{
-            //    string searchTerm = txt_Search.Text;
-            //    List<Character> filteredList;
-            //    filteredList = _characters.Where(c => (cmb_Filter.Text == "" || c.Gender.ToString() == cmb_Filter.Text) 
-            //                                    &&
-            //                                    (searchTerm == "" ||
-            //                                    (c.LastName.ToUpper().Contains(searchTerm.ToUpper()) || c.FirstName.ToUpper().Contains(searchTerm.ToUpper()))
-            //                                    )).ToList();
-            //    dataGridView_Characters.DataSource = filteredList;
-            //}       
+            SortSearchFilter();     
         }
 
         private void btn_ClearSearch_Click(object sender, EventArgs e)
@@ -198,34 +175,6 @@ namespace WinForms_DataViewer
         
         private void SortSearchFilter()
         {
-            //if (_characters.Any())
-            //{
-            //    string searchTerm = txt_Search.Text;
-            //    string filterTerm = cmb_Filter.Text;
-            //    List<Character> searchFilterList;
-            //    searchFilterList = _characters.Where(c => (filterTerm == "" || c.Gender.ToString() == filterTerm)
-            //                                    &&
-            //                                    (searchTerm == "" ||
-            //                                    (c.LastName.ToUpper().Contains(searchTerm.ToUpper()) || c.FirstName.ToUpper().Contains(searchTerm.ToUpper()))
-            //                                    )).ToList();
-
-            //    //
-            //    // sort list by last name, then by first name and reset the DataSource
-            //    //
-            //    List<Character> sortedList;
-
-            //    if (_sortNameDir == "A" || _sortNameDir == null)
-            //    {
-            //        sortedList = searchFilterList.OrderBy(c => c.LastName + c.FirstName).ToList();
-            //        _sortNameDir = "D";
-            //        btn_Sort.Text = "Sort Desc";
-            //    }
-            //    else
-            //    {
-            //        sortedList = searchFilterList.OrderByDescending(c => c.LastName + c.FirstName).ToList();
-            //        _sortNameDir = "A";
-            //        btn_Sort.Text = "Sort";
-            //    }
             if (_characters.Any())
             {
                 List<Character> resultList = SortList(FilterList(SearchList(_characters)));
@@ -233,6 +182,11 @@ namespace WinForms_DataViewer
             }
         }
 
+        /// <summary>
+        /// Filters a list of Characters and returns a list of characters that match the filter criteria
+        /// </summary>
+        /// <param name="characterList"></param>
+        /// <returns>List of Character</returns>
         private List<Character> FilterList(List<Character> characterList)
         {
             string searchTerm = txt_Search.Text;
@@ -242,6 +196,11 @@ namespace WinForms_DataViewer
             return filteredList;
         }
 
+        /// <summary>
+        /// Searches a list of Characters and returns a list of characters that match the search criteria
+        /// </summary>
+        /// <param name="characterList"></param>
+        /// <returns>List of Character</returns>
         private List<Character> SearchList(List<Character> characterList)
         {
             string searchTerm = txt_Search.Text;
@@ -252,10 +211,18 @@ namespace WinForms_DataViewer
             return searchedList;
         }
 
+        /// <summary>
+        /// Sorts a list of Characters, alternately in ascending and descending order
+        /// </summary>
+        /// <param name="characterList"></param>
+        /// <returns>List of Character</returns>
         private List<Character> SortList(List<Character> characterList)
         {
             List<Character> sortedList;
 
+            //
+            // sort ascending when _sortNameDir = "A", and descending otherwise
+            //
             if (_sortNameDir == "A" || _sortNameDir == null)
             {
                 sortedList = characterList.OrderBy(c => c.LastName + c.FirstName).ToList();
