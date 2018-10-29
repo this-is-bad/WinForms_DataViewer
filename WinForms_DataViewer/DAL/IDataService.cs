@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WinForms_DataViewer
+namespace WinForms_DataViewer.DAL
 {
     public interface IDataService
     {
-        List<Character> ReadAll();
-        void WriteAll(List<Character> characters);
+        IEnumerable<Character> ReadAll();
+        void WriteAll(IEnumerable<Character> characters);
     }
 }

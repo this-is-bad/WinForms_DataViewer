@@ -9,7 +9,7 @@ using System.IO;
 namespace WinForms_DataViewer
 
 {
-    public class XmlDataService : IDataService
+    public class XmlDataService //: IDataService
     {
         private string _dataFilePath;
 

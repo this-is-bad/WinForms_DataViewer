@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace WinForms_DataViewer
 {
+
     public class Character
     {
         public enum GenderType { Male, Female }
